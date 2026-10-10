@@ -4,7 +4,7 @@ DS 3500 - MP1
 Usage:
 python pipeline.py --input data.csv --output clean.csv
 python pipeline.py --input data.csv --output results.json --format
-json --verbose
+json --verbose yes this a test
 """
 import argparse
 import logging
@@ -31,7 +31,8 @@ def validate_input(filepath):
         return True
     logger.error(f"Input file not found: {filepath}")
     return False
-
+ 
+ 
 def main():
     args = parse_arguments()
     setup_logging(args.verbose)
