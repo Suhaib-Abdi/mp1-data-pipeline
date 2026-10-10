@@ -14,7 +14,9 @@ def load_csv(filepath):
 
     filepath is a Path object.
     """
-    pass
+    df = pd.read_csv(filepath)
+    logger.info(f"Loaded CSV file: {filepath} ({len(df)} rows)")
+    return df
 
 
 def load_json(filepath):
@@ -22,7 +24,10 @@ def load_json(filepath):
 
     filepath is a Path object.
     """
-    pass
+    with open(filepath, 'r') as f:
+        data = json.load(f)
+    logger.info(f"Loaded JSON file: {filepath}")
+    return data
 
 
 def load_yaml(filepath):
@@ -30,7 +35,10 @@ def load_yaml(filepath):
 
     filepath is a Path object.
     """
-    pass
+    with open(filepath, 'r') as f:
+        data = yaml.safe_load(f)
+    logger.info(f"Loaded YAML file: {filepath}")
+    return data
 
 
 def load_data(filepath):
@@ -38,4 +46,15 @@ def load_data(filepath):
 
     filepath is a string, such as 'fixtures/sample.csv'
     """
-    pass
+    path = Path(filepath)
+    ext = path.suffix.lower()
+    
+    if ext == '.csv':
+        return load_csv(path)
+    elif ext == '.json':
+        return load_json(path)
+    elif ext == '.yaml':
+        return load_yaml(path)
+    else:
+        logger.error(f"Unsupported file format: {ext}")
+        raise ValueError(f"Unsupported file format: {ext}")

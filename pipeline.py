@@ -4,12 +4,13 @@ DS 3500 - MP1
 Usage:
 python pipeline.py --input data.csv --output clean.csv
 python pipeline.py --input data.csv --output results.json --format
-json --verbose yes this a test
+json --verbose
 """
 import argparse
 import logging
 import sys
 from pathlib import Path
+from data_loaders import load_data
 
 logger = logging.getLogger(__name__)
 
@@ -31,13 +32,19 @@ def validate_input(filepath):
         return True
     logger.error(f"Input file not found: {filepath}")
     return False
- 
- 
+
 def main():
     args = parse_arguments()
     setup_logging(args.verbose)
     logger.debug(f"Arguments parsed: input={args.input}, output={args.output}, format={args.format}")
-    if not validate_input(args.input): sys.exit(1)
+    
+    if not validate_input(args.input):
+        sys.exit(1)
+        
+    try:
+        data = load_data(args.input)
+    except ValueError:
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
