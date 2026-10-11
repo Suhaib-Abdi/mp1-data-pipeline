@@ -67,9 +67,33 @@ def remove_outliers(df, columns, method, threshold):
 
 def process_data(df, config):
     """Apply the processing steps enabled in the configuration."""
-    pass
-
-
+    df_processed = df.copy()
+    
+    processing_config = (config or {}).get('processing') or {}
+    
+    if processing_config.get('remove_duplicates', False):
+        df_processed = remove_duplicates(df_processed)
+        
+    missing_config = processing_config.get('missing') or {}
+    if missing_config.get('enabled', False):
+        axis = missing_config.get('axis', 'rows')
+        df_processed = handle_missing(df_processed, axis=axis)
+        
+    outliers_config = processing_config.get('outliers') or {}
+    if outliers_config.get('enabled', False):
+        columns = outliers_config.get('columns', [])
+        method = outliers_config.get('method')
+        threshold = outliers_config.get('threshold')
+        df_processed = remove_outliers(df_processed, columns, method, threshold)
+        
+    return df_processed
 def create_cleaning_report(df_before, df_after):
     """Return a dictionary summarizing the cleaning results."""
-    pass
+    return {
+        'rows_before': len(df_before),
+        'rows_after': len(df_after),
+        'rows_removed': len(df_before) - len(df_after),
+        'columns_before': len(df_before.columns),
+        'columns_after': len(df_after.columns),
+        'columns_removed': len(df_before.columns) - len(df_after.columns)
+    }
