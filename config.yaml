@@ -6,6 +6,6 @@ processing:
   outliers:
     enabled: true
     columns:
-      - Score
+      -Score
     method: "iqr"
     threshold: 1.5

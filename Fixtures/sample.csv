@@ -1,6 +1,6 @@
-id,name,role
-1,Alice,Engineer
-2,Bob,Designer
-3,Charlie,Manager
-4,Diana,Analyst
-5,Evan,Developer
+Student_ID,Score
+1,10
+2,15
+3,10
+4,10
+5,14

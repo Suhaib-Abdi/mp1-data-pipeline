@@ -1,2 +1,4 @@
-version: 1.0
-environment: development
+cleaning:
+  missing: "drop"
+processing:
+  batch_size: 100
