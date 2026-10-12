@@ -15,12 +15,7 @@ from data_processor import process_data, create_cleaning_report
 
 logger = logging.getLogger(__name__)
 
-def setup_logging(verbose=False):
-    logging.basicConfig(
-        level=logging.DEBUG if verbose else logging.INFO,
-        format="%(asctime)s %(levelname)-8s %(name)s %(message)s",
-        datefmt='%H:%M:%S'
-    )
+
 
 def parse_arguments():
     p = argparse.ArgumentParser()
@@ -30,12 +25,7 @@ def parse_arguments():
     p.add_argument('-v', '--verbose', action='store_true')
     return p.parse_args()
 
-def validate_input(filepath):
-    if Path(filepath).is_file():
-        logger.info(f"Input file validated: {filepath}")
-        return True
-    logger.error(f"Input file not found: {filepath}")
-    return False
+
 
 def main():
     args = parse_arguments()
