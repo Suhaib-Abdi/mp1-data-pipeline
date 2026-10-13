@@ -19,18 +19,19 @@ def handle_missing(df, axis="rows"):
         logger.error(f"Unsupported axis for handling missing values: {axis}")
         raise ValueError(f"Unsupported axis for handling missing values: {axis}")
 
-    rows_before = len(df)
     if axis == "rows":
         df_cleaned = df.dropna(axis=0)
+        logger.debug(f"handle_missing: {len(df)} -> {len(df_cleaned)} rows")
     else:  # columns
         df_cleaned = df.dropna(axis=1)
+        logger.debug(f"handle_missing: {df.shape[1]} -> {df_cleaned.shape[1]} columns")
 
-    logger.debug(f"handle_missing: {rows_before} -> {len(df_cleaned)} rows")
     return df_cleaned
 
 
 def remove_outliers(df, columns, method, threshold):
     """Remove outliers from the specified numeric columns."""
+    #Cleans out crazy high or low numbers so extreme values don't wreck your analysis
     if method not in ['iqr', 'zscore']:
         logger.error(f"Unsupported outlier method: {method}")
         raise ValueError(f"Unsupported outlier method: {method}")
@@ -56,7 +57,7 @@ def remove_outliers(df, columns, method, threshold):
             upper_bound = Q3 + threshold * IQR
             df_cleaned = df_cleaned[(df_cleaned[col] >= lower_bound) & (df_cleaned[col] <= upper_bound)]
             removed = rows_before - len(df_cleaned)
-            logger.debug(f"{col}: lower={lower_bound}, upper={upper_bound}, removed={removed}")
+            logger.debug(f"{col}: method=iqr, threshold={threshold}, removed={removed}")
 
         elif method == 'zscore':
             mean = df_cleaned[col].mean()

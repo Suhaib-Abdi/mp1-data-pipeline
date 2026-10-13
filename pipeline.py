@@ -33,12 +33,14 @@ def main():
 
     # 1. Setup logging
     setup_logging(args.verbose)
+    logger.debug(f"Arguments parsed: input={args.input}, config={args.config}, output={args.output}")
 
     # 2. Validate input file paths
-    validate_input(args.input)
-    logger.info(f"Input file validated: {args.input}")
-    validate_input(args.config)
-    logger.info(f"Input file validated: {args.config}")
+    
+    if not validate_input(args.input):
+        sys.exit(1)
+    if not validate_input(args.config):
+        sys.exit(1)
 
     # 3. Load data and configuration
     try:
