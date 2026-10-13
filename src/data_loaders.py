@@ -4,8 +4,7 @@ from pathlib import Path
 import pandas as pd
 import yaml
 
-# Do not call logging.basicConfig() here.
-# Use the logging configuration from Part 1.
+
 logger = logging.getLogger(__name__)
 
 
